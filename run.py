@@ -197,15 +197,18 @@ def is_slot_between(slot, time_from, time_to):
 
 
 def any_free_slot(time_from, time_to):
-    slots_elements = wait.until(ec.visibility_of_all_elements_located((By.CSS_SELECTOR, '.reserveTable tbody tr')))
-    log.info("Number of all slots: {}".format(len(slots_elements)))
-    log.screenshot('any_free_slot')
+    try:
+        slots_elements = wait.until(ec.visibility_of_all_elements_located((By.CSS_SELECTOR, '.reserveTable tbody tr')))
+        log.info("Number of all slots: {}".format(len(slots_elements)))
+        log.screenshot('any_free_slot')
 
-    log.info("Applying time filters: from {} to {}", time_from, time_to)
-    matching_slots_elements = [slot for slot in slots_elements if is_slot_between(slot, time_from, time_to)]
+        log.info("Applying time filters: from {} to {}", time_from, time_to)
+        matching_slots_elements = [slot for slot in slots_elements if is_slot_between(slot, time_from, time_to)]
 
-    log.info("Number of matching slots: {}".format(len(matching_slots_elements)))
-
+        log.info("Number of matching slots: {}".format(len(matching_slots_elements)))
+    except TimeoutException:
+        log.info("No free slots found")
+        return []
     return matching_slots_elements
 
 
