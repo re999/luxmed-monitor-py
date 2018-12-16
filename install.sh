@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
-virtualenv -p python3 .env
+virtualenv -p python .env
 
 ./.env/bin/pip install -r pip-dep.txt
+ 
